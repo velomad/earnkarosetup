@@ -2,28 +2,33 @@ const pool = require("../db");
 
 module.exports = {
   topSellingService: (data, offerZone) => {
-    console.log(data);
-
     let arry = [];
 
     data.map((el) => {
       arry.push([
-        el.website,
-        el.category,
-        el.displayCategory,
-        el.gender,
-        el.productName,
-        el.brandName,
-        el.imageUrl,
-        el.discountPercent,
         el.productPrice,
-        el.productPriceStrike,
+        el.priceStrike,
+        el.brandName,
+        el.productName,
+        el.productImage,
+        el.discountPercent,
         el.productLink,
-        el.size,
-        el.productRating,
+        JSON.stringify(el.thumbnailImages),
+        offerZone,
       ]);
     });
 
-    console.log(offerZone, "was extracted");
+    console.log(arry);
+
+    const sql =
+      "INSERT INTO earnkaro (productPrice, priceStrike, brandName, productName, productImage, discountPercent, productLink, thumbnailImages, offerZone) VALUES ?";
+    const values = [arry];
+    pool.query(sql, values, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(results);
+      }
+    });
   },
 };

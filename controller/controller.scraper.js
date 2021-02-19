@@ -75,7 +75,7 @@ module.exports = {
     ];
     for (var i in links) {
       await page.goto(`https://earnkaro.com/top-selling-products/${links[i]}`, {
-        waitUntil: "load",
+        waitUntil: "networkidle2",
         timeout: 0,
       });
       // await autoScroll(page);
